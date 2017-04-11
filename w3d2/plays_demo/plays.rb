@@ -65,8 +65,8 @@ class Play
 
   def self.find_by_playwright(name)
     playwright = Playwright.find_by_name(name)
-    raise "#{name} not found in database" unless playwright
-    plays = PlayDBConnection.instance.execute(<<-SQL, playwright_id)
+    raise "#{name} not found in DB" unless playwright
+    plays = PlayDBConnection.instance.execute(<<-SQL, playwright.id)
       SELECT
         *
       FROM
@@ -74,24 +74,19 @@ class Play
       WHERE
         playwright_id = ?
     SQL
-    play.map {|play| Play.new(play)}
+
+    plays.map { |play| Play.new(play) }
   end
 
 end
 
-class PlayWright
-    attr_accessor :name, :birth_year
-    attr_reader :id
-    #Needs to be read for foreign key value in Play class
+class Playwright
+  attr_accessor :name, :birth_year
+  attr_reader :id
+
   def self.all
     data = PlayDBConnection.instance.execute("SELECT * FROM playwrights")
     data.map { |datum| Playwright.new(datum) }
-  end
-
-  def initialize(options)
-    @id = options['id']
-    @name = options['name']
-    @birth_year = options['birth_year']
   end
 
   def self.find_by_name(name)
@@ -103,9 +98,15 @@ class PlayWright
       WHERE
         name = ?
     SQL
-    return nil unless person.length > 0
+    return nil unless person.length > 0 # person is stored in an array!
 
     Playwright.new(person.first)
+  end
+
+  def initialize(options)
+    @id = options['id']
+    @name = options['name']
+    @birth_year = options['birth_year']
   end
 
   def create
@@ -141,6 +142,7 @@ class PlayWright
       WHERE
         playwright_id = ?
     SQL
-    plays.map {|play| Play.new(play)}
+    plays.map { |play| Play.new(play) }
   end
+
 end
