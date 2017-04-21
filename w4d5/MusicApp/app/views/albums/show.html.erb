@@ -1,0 +1,8 @@
+<h2><%= @album.name %></h2>
+<ul>
+  <% @album.tracks.each do |track| %>
+    <li>
+      <%= track.song %>
+    </li>
+  <% end %>
+</ul>
