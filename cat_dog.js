@@ -1,0 +1,30 @@
+// function Cat () {
+//   this.name = 'Markov';
+//   this.age = 3;
+// }
+//
+// function Dog () {
+//   this.name = 'Noodles';
+//   this.age = 4;
+// }
+//
+// Dog.prototype.chase = function (cat) {
+//   console.log(`My name is ${this.name} and I'm chasing ${cat.name}! Woof!`)
+// };
+//
+// const Markov = new Cat ();
+// const Noodles = new Dog ();
+//
+// console.log(Noodles.chase(Markov));
+//
+// Markov.chase.call(Noodles, Markov);
+// console.log(Noodles.chase.call(Markov, Noodles));
+// console.log(Noodles.chase.apply(Markov, [Noodles]));
+
+const cat = {
+  age: 5,
+
+  ageOneYear () {
+    this.age += 1;
+  }
+};
